@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Discilpine extends Model
+class State extends Model
 {
     //
-    protected $table='disciplines';
 }

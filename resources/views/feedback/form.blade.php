@@ -4,15 +4,13 @@
 
       <div class="row">
         <div class="input-field col s6">
-          <i class="material-icons prefix">account_circle</i>
-          <input name="name" id="icon_prefix" type="text" class="validate" value="{{Auth::user()->name}}" disabled="true">
-          <label for="name">Name</label>
+          <i class="material-icons prefix">account_circle</i><br>
+          <p>{{Auth::user()->name}}</p>
         </div>
         <div class="input-field col s6">
-          <i class="material-icons prefix">email</i>
-          <input name="email" id="icon_prefix" type="text" class="validate" value="{{Auth::user()->email}}" disabled="true">
-          <label for="name">Email</label>
-        </div>
+          <i class="material-icons prefix">email</i><br>
+          <p>{{Auth::user()->email}}</p>
+          </div>
         </div>
 
         <div class="row">
@@ -53,42 +51,9 @@
           <i class="material-icons prefix">my_location</i>
           <select name="state">
       		<option value="" disabled selected>State/Union Territory</option>
-      		<option value="Andaman and Nicobar Island">Andaman and Nicobar Island</option>
-<option value="Andhra Pradesh">Andhra Pradesh</option>
-<option value="Arunachal Pradesh">Arunachal Pradesh</option>
-<option value="Assam">Assam</option>
-<option value="Bihar">Bihar</option>
-<option value="Chandigarh">Chandigarh</option>
-<option value="Chhattisgarh">Chhattisgarh</option>
-<option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
-<option value="Daman And Diu">Daman and Diu</option>
-<option value="Delhi">Delhi</option>
-<option value="Goa">Goa</option>
-<option value="Gujrat">Gujarat</option>
-<option value="Haryana">Haryana</option>
-<option value="Himachal Pradesh">Himachal Pradesh</option>
-<option value="Jammu and Kashmir">Jammu and Kashmir</option>
-<option value="Jharkhand">Jharkhand</option>
-<option value="Karnataka">Karnataka</option>
-<option value="Kerala">Kerala</option>
-<option value="Lakshadweep">Lakshadweep</option>
-<option value="Madhya Pradesh">Madhya Pradesh</option>
-<option value="Maharashtra">Maharashtra</option>
-<option value="Manipur">Manipur</option>
-<option value="Meghalaya">Meghalaya</option>
-<option value="Mizoram">Mizoram</option>
-<option value="Nagaland">Nagaland</option>
-<option value="Odisha">Odisha</option>
-<option value="Puducherry">Puducherry</option>
-<option value="Punjab">Punjab</option>
-<option value="Rajasthan">Rajasthan</option>
-<option value="Sikkim">Sikkim</option>
-<option value="Tamil Nadu">Tamil Nadu</option>
-<option value="Telangana">Telangana</option>
-<option value="Tripura">Tripura</option>
-<option value="Uttarakhand">Uttarakhand</option>
-<option value="Uttar Pradesh">Uttar Pradesh</option>
-<option value="West Bengal">West Bengal</option>
+      		@foreach($states as $state)
+      		<option value="{{$state->state_name}}">{{$state->state_name}}</option>
+      		@endforeach
     		</select>
     <label>Select State/Union Territories</label>
         </div>
@@ -118,6 +83,7 @@
           	<option value="Pursuing undergraduate degree">Yet to complete my undergraduate degree</option>
           	<option value="Pursuing Masters Degree">Pursuing Masters Degree</option>
           	<option value="Others">Others</option> -->
+          	<option value="" disabled selected>Select Discipline</option>
           	@foreach($disciplines as $discipline)
           	<option value="{{$discipline->discipline_name}}">{{$discipline->discipline_name}}</option>	
           	@endforeach
@@ -130,6 +96,7 @@
           <div class="row">
           <div class="input-field col s6">
           <select name="departments">
+          <option value="" disabled selected>Select Department</option>
           	@foreach($departments as $department)
           	<option value="{{$department->name}}">{{$department->name}}</option>
           	@endforeach

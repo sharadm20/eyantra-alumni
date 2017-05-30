@@ -1,5 +1,7 @@
 <?php
-
+use App\Department;
+use App\Discipline;
+use App\State;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +16,10 @@
 Route::any('/', function () {
 	if(Auth::check())
 	{
-    return view('home')->with('msg','');
+		$dept=Department::all();
+		$disc=Discipline::all();
+		$st=State::all();
+    return view('home')->with(['msg'=>'','departments'=>$dept,'disciplines'=>$disc,'states'=>$st]);
 }
 return view('welcome')->with('fail','');
 })->name('land');

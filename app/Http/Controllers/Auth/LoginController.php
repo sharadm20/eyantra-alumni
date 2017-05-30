@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Discipline;
 use App\Department;
+use App\State;
 use Input;
 use Log;
 use Validator;
@@ -65,6 +66,7 @@ class LoginController extends Controller
     //$us=New User();
    // $us->email=request()->get('email');
    // $us->password=request()->get('password');
+    $state=State::all();
     $discipline=Discipline::all();
         Log::info("discipline :".$discipline);
         $department=Department::all();
@@ -77,7 +79,7 @@ class LoginController extends Controller
             Log::info("reset password #if section#");
             return view('profile.reset');
         }
-    return view('home')->with(['msg','','discilines'=>$disciline,'departments'=>$department]);
+    return view('home')->with(['msg'=>'','disciplines'=>$discipline,'departments'=>$department,'states'=>$state]);
     }
     catch(Exception $err){
         Auth::logout();

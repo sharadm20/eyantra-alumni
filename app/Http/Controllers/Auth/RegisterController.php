@@ -9,6 +9,7 @@ use Log;
 use Auth;
 use App\Discipline;
 use App\Department;
+use App\State;
 use App\User;
 use App\Mail\AccountCreate;
 use App\Http\Controllers\Controller;
@@ -57,11 +58,8 @@ class RegisterController extends Controller
     {
         //Log::info("data".var_dump($data));
     $messages = ['required' => 'The :attribute must not be left blank',
-    'same'    => 'The :attribute and :other must match.',
-    'size'    => 'The :attribute must be exactly :size.',
-    'between' => 'The :attribute must be between :min - :max.',
-    'in'      => 'The :attribute must be one of the following types: :values',
-    'unique' => 'The :attribute is already in use',
+    
+    
     'alpha_num' => 'This :attribute field must contain a number or a letter',
     
     'min'=> 'This :attribute must be atleast :min size',
@@ -69,8 +67,9 @@ class RegisterController extends Controller
           $rules=[
             'name' => 'required|string|max:255',
             
-            'password' => 'required|alpha_num|min:6|confirmed',
-            'repassword'=> 'required|alpha_num|min:6|same:password',
+            'password' => 'required|alpha_num|min:6',
+            'repass'=>'required|alpha_num|min:6|same:password',
+            
           ];
         return Validator::make($data,$rules,$messages);
     }
@@ -127,24 +126,30 @@ class RegisterController extends Controller
 
       protected function postactivate()
       {
+        Log::info('post activate');
         $discipline=Discipline::all();
-        Log::info("discipline :".$discipline);
+        Log::info("discipline :".$discipline[0]);
         $department=Department::all();
-        Log::info("dept :".$department);
-        $valid=$this->validator(request()->all());
+        Log::info("dept :".$department[0]);
+        $state=State::all();
+        //$string = implode(';', Input::get('name'));
+        Log::info("request param::".Input::get('name'));
+        $data=['name'=>Input::get('name'),'password'=>Input::get('password'),'repass'=>Input::get('repass')];
+        $valid=$this->validator($data);
         if($valid->fails()){
-            return view('profile.reset')->withErrors($valid)->withInput();
+            return view('profile.reset')->withErrors($valid);
         }
         else{
           $user=Auth::user();
-          $user->name=request()->get('name');
+          $user->name=$data['name'];
           $user->reset=1;
-          $user->password=bcrypt(request()->get('password'));
+          $user->password=bcrypt($data['password']);
           if(!$user->save()){
-            return 'Fail to save instance of user';
+            return redirect()->route('logout');
           }
-        return view('home')->with(['disciplines'=>$discipline,'departments'=>$department,'msg'=>'Password Set Succesfully']);
+        return view('home')->with(['disciplines'=>$discipline,'departments'=>$department,'msg'=>'Password Set Succesfully','states'=>$state]);
         }
+        //
       }    
 
           //landing page for forgot pwd/email
