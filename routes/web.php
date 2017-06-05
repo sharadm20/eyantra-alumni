@@ -46,14 +46,39 @@ Route::post('/signin', [
 	'uses' => 'Auth\LoginController@signin'
 	]);
 
-Route::any('/signup',[
-	'as' => 'signup',
-	'uses'=>'Auth\RegisterController@signup'
+/*Route::any('/getdetails',[
+	'as' => 'opdetails',
+	'uses'=>'ProfileController@opdetails'
 ]);
 
-Route::any('/signupland',[
-'as'=>'signupland',
-'uses'=>'Auth\RegisterController@signupland'
+Route::any('/getclgfaq',[
+'as'=>'opclgfaq',
+'uses'=>'ProfileController@opclgfaq'
+]);
+
+Route::any('/getfeedback',[
+'as'=>'opfeedback',
+'uses'=>'ProfileController@opfeedback'
+]);*/
+Route::any('/profile',[
+'as'=>'viewprofile',
+'uses'=>'ProfileController@viewprofile'
+
+	]);
+
+Route::any('/details',[
+	'as' => 'details',
+	'uses'=>'ProfileController@details'
+]);
+
+Route::any('/clgfaq',[
+'as'=>'clgfaq',
+'uses'=>'ProfileController@clgfaq'
+]);
+
+Route::any('/feedback',[
+'as'=>'feedback',
+'uses'=>'ProfileController@feedback'
 ]);
 
 Route::any('/logout', [
@@ -69,24 +94,27 @@ Route::get('/forgot',['as'=>'forgot','uses'=>'Auth\RegisterController@getforgot'
 Route::post('/forgot',['as'=>'forgot','uses'=>'Auth\RegisterController@postforgot']);
 
 
-Route::any('/hash/{pass}',function($pass){
-        
-        return Hash::make($pass);
 
-    });
 //Admin
 
-Auth::routes();
-
-//Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware'=>'admin'],function(){
 Route::get('/email',function(){
 	
-	return view('email.notify')->with(['user'=>'omg.noh@gmail.com','password'=>'hahaha']);
-});
+	return view('email.notify')->with(['email'=>'omg.noh@gmail.com','password'=>'hahaha']);
+	});
 
 //CLI Clear cache
 Route::get('/clear', function() {
     $exitCode = Artisan::call('cache:clear');
     // return what you want
     return 'Done';
+	});
+
+Route::any('/hash/{pass}',function($pass){
+        
+        return Hash::make($pass);
+
+    });
 });
+
+//Route::get('/home', 'HomeController@index')->name('home');

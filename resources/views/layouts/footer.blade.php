@@ -92,9 +92,7 @@
          
 
 
- $("#signupl").click(function(){
- window.location="{!!URL::route('signup')!!}";
- });
+ 
        
  
     $('select').material_select();

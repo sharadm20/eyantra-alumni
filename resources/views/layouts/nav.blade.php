@@ -1,8 +1,8 @@
 @section('nav')
 <!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">
-  <li><a href="#!">Edit</a></li>
-  <li><a href="#!">Settings</a></li>
+  
+  <li><a href="{{route('viewprofile')}}">Profile</a></li>
   <li class="divider"></li>
   <li><a href="{!!route('logout')!!}">Logout</a></li>
 </ul>

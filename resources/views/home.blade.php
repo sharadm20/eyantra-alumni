@@ -21,7 +21,23 @@
   </button>
                 </div>
                 @else
-                @include('feedback.form')
+                  @if(Auth::user()->profile==0)
+                  @include('feedback.form')
+                  @else
+                    @if(Auth::user()->clg_f==0)
+                      @include('feedback.clg-facility')
+                    
+                    @elseif(Auth::user()->feedback==0)
+                      @include('feedback.impact-form')
+                    
+                    @else
+                        <div class="alert alert-info">
+                        <p class="blue-text">your valuable feedback has been submittted successfully.</p>
+                        </div>
+
+                    @endif
+
+                  @endif
                 @endif
                  @if($errors->has('error'))
             <p class="red-text">{!! $errors->first('error') !!}</p>

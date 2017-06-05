@@ -1,7 +1,7 @@
-<form>
+<form action="{{route('details')}}">
 {!! csrf_field() !!}
 
-
+	<h4>Profile</h4>
       <div class="row">
         <div class="input-field col s6">
           <i class="material-icons prefix">account_circle</i><br>
@@ -16,30 +16,30 @@
         <div class="row">
         <div class="input-field col s6">
           <i class="material-icons prefix">contacts</i>
-          <input name="phone_no" id="icon_prefix" type="text" class="validate" value="{{old('phone_no')}}" >
-          <label for="name">Phone No.</label>
+          <input name="phone" id="icon_prefix" type="text" class="validate" value="{{old('phone')}}" >
+          <label for="phone">Phone No.</label>
         </div>
         </div>
-        @if($errors->has('phone_no'))
-            <p class="red-text">{!! $errors->first('phone_no') !!}</p>
+        @if($errors->has('phone'))
+            <p class="red-text">{!! $errors->first('phone') !!}</p>
           @endif
 
           <div class="row">
         <div class="input-field col s6">
           <i class="material-icons prefix">subject</i>
-          <input name="college" id="icon_prefix" type="text" class="validate" value="{{old('collge')}}" >
-          <label for="name">College Name</label>
+          <input name="college_name" id="icon_prefix" type="text" class="validate" value="{{old('college_name')}}" >
+          <label for="college_name">College Name</label>
         </div>
         </div>
-        @if($errors->has('college'))
-            <p class="red-text">{!! $errors->first('college') !!}</p>
+        @if($errors->has('college_name'))
+            <p class="red-text">{!! $errors->first('college_name') !!}</p>
           @endif
 
            <div class="row">
         <div class="input-field col s6">
           <i class="material-icons prefix">location_on</i>
           <input name="address" id="icon_prefix" type="text" class="validate" value="{{old('address')}}" >
-          <label for="name">Address</label>
+          <label for="address">Address</label>
         </div>
         </div>
         @if($errors->has('address'))
@@ -74,392 +74,116 @@
 
           <div class="row">
         <div class="input-field col s6">
-          <select name="disciplines">
-          	<!-- <option value="B.E.">B.E.</option>
-          	<option value="B Tech.">B.Tech.</option>
-          	<option value="B.Sc.">B.Sc.</option>
-          	<option value="M.E.">M.E.</option>
-          	<option value="M.Tech.">M.Tech.</option>
-          	<option value="Pursuing undergraduate degree">Yet to complete my undergraduate degree</option>
-          	<option value="Pursuing Masters Degree">Pursuing Masters Degree</option>
-          	<option value="Others">Others</option> -->
+          <select name="discipline">
+          	
           	<option value="" disabled selected>Select Discipline</option>
           	@foreach($disciplines as $discipline)
           	<option value="{{$discipline->discipline_name}}">{{$discipline->discipline_name}}</option>	
           	@endforeach
           </select>
         </div>
-        </div>
-        @if($errors->has('disciplines'))
-            <p class="red-text">{!! $errors->first('disciplines') !!}</p>
+        
+        @if($errors->has('discipline'))
+            <p class="red-text">{!! $errors->first('discipline') !!}</p>
           @endif
+          </div>
           <div class="row">
           <div class="input-field col s6">
-          <select name="departments">
+          <select name="department">
           <option value="" disabled selected>Select Department</option>
           	@foreach($departments as $department)
           	<option value="{{$department->name}}">{{$department->name}}</option>
           	@endforeach
           </select>
-          <div class="divider">
-          	 <blockquotes>We'd like to know how e-Yantra has touched you.</blockquotes>
           </div>
-			<div class="section">
-				<p><strong>Q1.</strong> Improved technical skills</p>
-									@if($errors->has('que1'))
-										<p class="red-text">{!! $errors->first('que1') !!}</p>
-									@endif
-									<p>
-											<input name="que1" type="radio" value="1" id="q1_opt1" @if(old('que1') ==  1) checked="checked" @endif/>
-											<label for="q1_opt1">Strongly Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="2" id="q1_opt2" @if(old('que1') ==  2) checked="checked" @endif/>
-											<label for="q1_opt2">Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="3" id="q1_opt3" @if(old('que1') ==  3) checked="checked" @endif/>
-											<label for="q1_opt3">Neutral</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="4" id="q1_opt4" @if(old('que1') ==  4) checked="checked" @endif/>
-												<label for="q1_opt4">Disagree</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="5" id="q1_opt5" @if(old('que1') ==  5) checked="checked" @endif/>
-												<label for="q1_opt5">Strongly Disagree</label>
-										</p>
-									</div>
-			<div class="section">
-				<p><strong>Q2.</strong> Improved technical skills</p>
-									@if($errors->has('que1'))
-										<p class="red-text">{!! $errors->first('que1') !!}</p>
-									@endif
-									<p>
-											<input name="que1" type="radio" value="1" id="q1_opt1" @if(old('que1') ==  1) checked="checked" @endif/>
-											<label for="q1_opt1">Strongly Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="2" id="q1_opt2" @if(old('que1') ==  2) checked="checked" @endif/>
-											<label for="q1_opt2">Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="3" id="q1_opt3" @if(old('que1') ==  3) checked="checked" @endif/>
-											<label for="q1_opt3">Neutral</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="4" id="q1_opt4" @if(old('que1') ==  4) checked="checked" @endif/>
-												<label for="q1_opt4">Disagree</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="5" id="q1_opt5" @if(old('que1') ==  5) checked="checked" @endif/>
-												<label for="q1_opt5">Strongly Disagree</label>
-										</p>
-									</div>
+          @if($errors->has('department'))
+            <p class="red-text">{!! $errors->first('department') !!}</p>
+          @endif
+          </div>
 			
-			<div class="section">
-				<p><strong>Q3.</strong> Improved technical skills</p>
-									@if($errors->has('que1'))
-										<p class="red-text">{!! $errors->first('que1') !!}</p>
-									@endif
-									<p>
-											<input name="que1" type="radio" value="1" id="q1_opt1" @if(old('que1') ==  1) checked="checked" @endif/>
-											<label for="q1_opt1">Strongly Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="2" id="q1_opt2" @if(old('que1') ==  2) checked="checked" @endif/>
-											<label for="q1_opt2">Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="3" id="q1_opt3" @if(old('que1') ==  3) checked="checked" @endif/>
-											<label for="q1_opt3">Neutral</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="4" id="q1_opt4" @if(old('que1') ==  4) checked="checked" @endif/>
-												<label for="q1_opt4">Disagree</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="5" id="q1_opt5" @if(old('que1') ==  5) checked="checked" @endif/>
-												<label for="q1_opt5">Strongly Disagree</label>
-										</p>
-									</div>
+			<div class="row">
+        <div class="input-field col s6">
+          <select name="eyrc[]" multiple>
+          	
+          <option value="" disabled selected>Have you participated in the e-Yantra Robotics Competition (eYRC)?</option>
+          	
+          	
+          	<option value="2012">eYRC-2012</option>
+          	<option value="2013">eYRC-2013</option>
+          	<option value="2014">eYRC-2014</option>
+          	<option value="2015">eYRC-2015</option>
+          	<option value="2016">eYRC-2016</option>
 
-				<div class="section">
-				<p><strong>Q4.</strong> Improved technical skills</p>
-									@if($errors->has('que1'))
-										<p class="red-text">{!! $errors->first('que1') !!}</p>
-									@endif
-									<p>
-											<input name="que1" type="radio" value="1" id="q1_opt1" @if(old('que1') ==  1) checked="checked" @endif/>
-											<label for="q1_opt1">Strongly Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="2" id="q1_opt2" @if(old('que1') ==  2) checked="checked" @endif/>
-											<label for="q1_opt2">Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="3" id="q1_opt3" @if(old('que1') ==  3) checked="checked" @endif/>
-											<label for="q1_opt3">Neutral</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="4" id="q1_opt4" @if(old('que1') ==  4) checked="checked" @endif/>
-												<label for="q1_opt4">Disagree</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="5" id="q1_opt5" @if(old('que1') ==  5) checked="checked" @endif/>
-												<label for="q1_opt5">Strongly Disagree</label>
-										</p>
-									</div>
+          	
+          	
+          </select>
+        </div>
+        
+        </div>
 
-				<div class="section">
-				<p><strong>Q5.</strong> Improved technical skills</p>
-									@if($errors->has('que1'))
-										<p class="red-text">{!! $errors->first('que1') !!}</p>
-									@endif
-									<p>
-											<input name="que1" type="radio" value="1" id="q1_opt1" @if(old('que1') ==  1) checked="checked" @endif/>
-											<label for="q1_opt1">Strongly Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="2" id="q1_opt2" @if(old('que1') ==  2) checked="checked" @endif/>
-											<label for="q1_opt2">Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="3" id="q1_opt3" @if(old('que1') ==  3) checked="checked" @endif/>
-											<label for="q1_opt3">Neutral</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="4" id="q1_opt4" @if(old('que1') ==  4) checked="checked" @endif/>
-												<label for="q1_opt4">Disagree</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="5" id="q1_opt5" @if(old('que1') ==  5) checked="checked" @endif/>
-												<label for="q1_opt5">Strongly Disagree</label>
-										</p>
-									</div>
-									<div class="section">
-				<p><strong>Q6.</strong> Improved technical skills</p>
-									@if($errors->has('que1'))
-										<p class="red-text">{!! $errors->first('que1') !!}</p>
-									@endif
-									<p>
-											<input name="que1" type="radio" value="1" id="q1_opt1" @if(old('que1') ==  1) checked="checked" @endif/>
-											<label for="q1_opt1">Strongly Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="2" id="q1_opt2" @if(old('que1') ==  2) checked="checked" @endif/>
-											<label for="q1_opt2">Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="3" id="q1_opt3" @if(old('que1') ==  3) checked="checked" @endif/>
-											<label for="q1_opt3">Neutral</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="4" id="q1_opt4" @if(old('que1') ==  4) checked="checked" @endif/>
-												<label for="q1_opt4">Disagree</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="5" id="q1_opt5" @if(old('que1') ==  5) checked="checked" @endif/>
-												<label for="q1_opt5">Strongly Disagree</label>
-										</p>
-									</div>
-									<div class="section">
-				<p><strong>Q7.</strong> Improved technical skills</p>
-									@if($errors->has('que1'))
-										<p class="red-text">{!! $errors->first('que1') !!}</p>
-									@endif
-									<p>
-											<input name="que1" type="radio" value="1" id="q1_opt1" @if(old('que1') ==  1) checked="checked" @endif/>
-											<label for="q1_opt1">Strongly Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="2" id="q1_opt2" @if(old('que1') ==  2) checked="checked" @endif/>
-											<label for="q1_opt2">Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="3" id="q1_opt3" @if(old('que1') ==  3) checked="checked" @endif/>
-											<label for="q1_opt3">Neutral</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="4" id="q1_opt4" @if(old('que1') ==  4) checked="checked" @endif/>
-												<label for="q1_opt4">Disagree</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="5" id="q1_opt5" @if(old('que1') ==  5) checked="checked" @endif/>
-												<label for="q1_opt5">Strongly Disagree</label>
-										</p>
-									</div>
-									<div class="section">
-				<p><strong>Q8.</strong> Improved technical skills</p>
-									@if($errors->has('que1'))
-										<p class="red-text">{!! $errors->first('que1') !!}</p>
-									@endif
-									<p>
-											<input name="que1" type="radio" value="1" id="q1_opt1" @if(old('que1') ==  1) checked="checked" @endif/>
-											<label for="q1_opt1">Strongly Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="2" id="q1_opt2" @if(old('que1') ==  2) checked="checked" @endif/>
-											<label for="q1_opt2">Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="3" id="q1_opt3" @if(old('que1') ==  3) checked="checked" @endif/>
-											<label for="q1_opt3">Neutral</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="4" id="q1_opt4" @if(old('que1') ==  4) checked="checked" @endif/>
-												<label for="q1_opt4">Disagree</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="5" id="q1_opt5" @if(old('que1') ==  5) checked="checked" @endif/>
-												<label for="q1_opt5">Strongly Disagree</label>
-										</p>
-									</div>
-									<div class="section">
-				<p><strong>Q9.</strong> Improved technical skills</p>
-									@if($errors->has('que1'))
-										<p class="red-text">{!! $errors->first('que1') !!}</p>
-									@endif
-									<p>
-											<input name="que1" type="radio" value="1" id="q1_opt1" @if(old('que1') ==  1) checked="checked" @endif/>
-											<label for="q1_opt1">Strongly Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="2" id="q1_opt2" @if(old('que1') ==  2) checked="checked" @endif/>
-											<label for="q1_opt2">Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="3" id="q1_opt3" @if(old('que1') ==  3) checked="checked" @endif/>
-											<label for="q1_opt3">Neutral</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="4" id="q1_opt4" @if(old('que1') ==  4) checked="checked" @endif/>
-												<label for="q1_opt4">Disagree</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="5" id="q1_opt5" @if(old('que1') ==  5) checked="checked" @endif/>
-												<label for="q1_opt5">Strongly Disagree</label>
-										</p>
-									</div>
-									<div class="section">
-				<p><strong>Q10.</strong> Improved technical skills</p>
-									@if($errors->has('que1'))
-										<p class="red-text">{!! $errors->first('que1') !!}</p>
-									@endif
-									<p>
-											<input name="que1" type="radio" value="1" id="q1_opt1" @if(old('que1') ==  1) checked="checked" @endif/>
-											<label for="q1_opt1">Strongly Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="2" id="q1_opt2" @if(old('que1') ==  2) checked="checked" @endif/>
-											<label for="q1_opt2">Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="3" id="q1_opt3" @if(old('que1') ==  3) checked="checked" @endif/>
-											<label for="q1_opt3">Neutral</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="4" id="q1_opt4" @if(old('que1') ==  4) checked="checked" @endif/>
-												<label for="q1_opt4">Disagree</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="5" id="q1_opt5" @if(old('que1') ==  5) checked="checked" @endif/>
-												<label for="q1_opt5">Strongly Disagree</label>
-										</p>
-									</div>
-									<div class="section">
-				<p><strong>Q11.</strong> Improved technical skills</p>
-									@if($errors->has('que1'))
-										<p class="red-text">{!! $errors->first('que1') !!}</p>
-									@endif
-									<p>
-											<input name="que1" type="radio" value="1" id="q1_opt1" @if(old('que1') ==  1) checked="checked" @endif/>
-											<label for="q1_opt1">Strongly Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="2" id="q1_opt2" @if(old('que1') ==  2) checked="checked" @endif/>
-											<label for="q1_opt2">Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="3" id="q1_opt3" @if(old('que1') ==  3) checked="checked" @endif/>
-											<label for="q1_opt3">Neutral</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="4" id="q1_opt4" @if(old('que1') ==  4) checked="checked" @endif/>
-												<label for="q1_opt4">Disagree</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="5" id="q1_opt5" @if(old('que1') ==  5) checked="checked" @endif/>
-												<label for="q1_opt5">Strongly Disagree</label>
-										</p>
-									</div>
-									<div class="section">
-				<p><strong>Q12.</strong> Improved technical skills</p>
-									@if($errors->has('que1'))
-										<p class="red-text">{!! $errors->first('que1') !!}</p>
-									@endif
-									<p>
-											<input name="que1" type="radio" value="1" id="q1_opt1" @if(old('que1') ==  1) checked="checked" @endif/>
-											<label for="q1_opt1">Strongly Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="2" id="q1_opt2" @if(old('que1') ==  2) checked="checked" @endif/>
-											<label for="q1_opt2">Agree</label>
-										</p>
-										<p>
-											<input name="que1" type="radio" value="3" id="q1_opt3" @if(old('que1') ==  3) checked="checked" @endif/>
-											<label for="q1_opt3">Neutral</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="4" id="q1_opt4" @if(old('que1') ==  4) checked="checked" @endif/>
-												<label for="q1_opt4">Disagree</label>
-										</p>
-										<p>
-												<input name="que1" type="radio" value="5" id="q1_opt5" @if(old('que1') ==  5) checked="checked" @endif/>
-												<label for="q1_opt5">Strongly Disagree</label>
-										</p>
-									</div>
-				<div class="section">
+        <div class="row">
+        <div class="input-field col s6">
+          <select name="eyic[]" multiple>
+          	
+          <option value="" disabled selected>Have you participated in the e-Yantra Ideas Competition (eYIC)?</option>
+          	
+          	
+          	
+          	<option value="2014">eYIC-2014</option>
+          	<option value="2015">eYIC-2015</option>
+          	<option value="2016">eYIC-2016</option>
+          	<option value="2017">eYIC-2017</option>
+
+          	
+          	
+          </select>
+        </div>
+        
+        </div>
+
+        <h4>Employment Details</h4>
+
+        <p class="red-text">If not employed please ignore</p>
+        <div class="row">
+          <div class="input-field col s6">
+          <select name="emp_field">
+          <option value="" disabled selected>Select Area of Field You are Employed</option>
+          	@foreach($departments as $department)
+          	<option value="{{$department->name}}">{{$department->name}}</option>
+          	@endforeach
+          </select>
+          </div>
+           
+          </div>
+          			<div class="section">
 					<div class="input-field col s12">
-						<textarea id="que13" name="que13" class="materialize-textarea">{{old('que13')}}</textarea>
-						<label for="que18_comment"><strong>Q13.</strong> Can you give us an example of an instance of any of the above?</label>
-						@if($errors->has('que18_comment'))
-							<span class="red-text">{!! $errors->first('que18_comment') !!}</span>
-						@endif
+						<textarea id="emp_organization" name="emp_organization" class="materialize-textarea">{{old('emp_organization')}}</textarea>
+						<label for="emp_organization">Name of organization which has employed you</label>
+						
 					</div>
 				</div>
-				<div class="section">
+							<div class="section">
 					<div class="input-field col s12">
-						<textarea id="que18_comment" name="que18_comment" class="materialize-textarea">{{old('que18_comment')}}</textarea>
-						<label for="que18_comment"><strong>Q14.</strong> What impact did e-Yantra have on your life?</label>
-						@if($errors->has('que18_comment'))
-							<span class="red-text">{!! $errors->first('que18_comment') !!}</span>
-						@endif
+						<textarea id="designation" name="designation" class="materialize-textarea">{{old('designation')}}</textarea>
+						<label for="designation">Designation you are posted at.</label>
+						
 					</div>
 				</div>
-				<div class="section">
+							<div class="section">
 					<div class="input-field col s12">
-						<textarea id="que18_comment" name="que18_comment" class="materialize-textarea">{{old('que18_comment')}}</textarea>
-						<label for="que18_comment"><strong>Q15.</strong> What were the problems you faced during e-Yantra competitions and how might they be improved?</label>
-						@if($errors->has('que18_comment'))
-							<span class="red-text">{!! $errors->first('que18_comment') !!}</span>
-						@endif
+						<textarea id="salary" name="salary" class="materialize-textarea">{{old('salary')}}</textarea>
+						<label for="salary">Annual Salary Offered</label>
+						
 					</div>
 				</div>
-				<div class="section">
-					<div class="input-field col s12">
-						<textarea id="que18_comment" name="que18_comment" class="materialize-textarea">{{old('que18_comment')}}</textarea>
-						<label for="que18_comment"><strong>Q16.</strong> Suggestions for how else e-Yantra might have improved your experience?</label>
-						@if($errors->has('que18_comment'))
-							<span class="red-text">{!! $errors->first('que18_comment') !!}</span>
-						@endif
-					</div>
-				</div>
-				<div class="row">
- 				<button class="btn waves-effect waves-light" type="submit" name="fdbcksave" id="fdbcksave">Save
+
+			<div class="row">
+ 				<button class="btn waves-effect waves-light" type="submit" name="dtlsave" id="dtlsave">Save
     			<i class="material-icons right">send</i>
   				</button>
 
   				</div>
+			</form>
 
-</form>
+          
+          
