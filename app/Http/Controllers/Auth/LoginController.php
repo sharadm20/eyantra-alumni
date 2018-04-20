@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use App\Discipline;
-use App\Department;
-use App\State;
+use App\Model\Discipline;
+use App\Model\Department;
+use App\Model\State;
 use Input;
 use Log;
 use Validator;
 use Auth;
+use Session;
 
 class LoginController extends Controller
 {
@@ -32,7 +33,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -47,7 +48,6 @@ class LoginController extends Controller
     {
         $message=[
         'required'=>'The :attribute must not be left blank',
-        
         ];
         $rules=['email' => 'required|email',
             'password' => 'required',];
@@ -55,44 +55,35 @@ class LoginController extends Controller
     }
 
     protected function signin(){
-       //Log::info("data".var_dump(request()->all()));
-        $valid=$this->validator(request()->all());
+    $valid=$this->validator(request()->all());
     if($valid->fails())
     {
-        Log::info("inside valid if");
-       return redirect()->route('land')->withErrors($valid)->withInput();
-    
+       return redirect()->route('index')->withErrors($valid)->withInput();
     }
-    //$us=New User();
-   // $us->email=request()->get('email');
-   // $us->password=request()->get('password');
+    
     $state=State::all();
     $discipline=Discipline::all();
-        Log::info("discipline :".$discipline);
-        $department=Department::all();
-        Log::info("dept :".$department);
-    try{
-     if(Auth::attempt(['email' => request()->get('email'), 'password' => request()->get('password')])){
-    }
-    Log::info("Auth attempt if".Auth::user());
-        if(Auth::user()->reset==0){
-            Log::info("reset password #if section#");
-            return view('profile.reset');
+    $department=Department::all();
+       try{
+            if(Auth::attempt(['email' => request()->get('email'), 'password' => request()->get('password'), 'role' => 0])){
+            return view('home')->with(['msg'=>'','disciplines'=>$discipline,'departments'=>$department,'states'=>$state]);
+            }
+
+            if(Auth::attempt(['email' => request()->get('email'), 'password' => request()->get('password'), 'role' => 1])){
+                //Log::info('Role 1');
+            return view('admin.index')->with('msg',"");
+            }
+    return redirect()->back()->withErrors(['email'=>'invalid email/password']);
         }
-    return view('home')->with(['msg'=>'','disciplines'=>$discipline,'departments'=>$department,'states'=>$state]);
-    }
     catch(Exception $err){
-        Auth::logout();
-        return redirect()->route('land');
+       $this->logout();
+        }
     }
     
-   // Log::info("debug");
-   // return view('welcome')->with('fail','Incorrect Username/Password');
-    }
     public function logout(){
         Auth::logout();
-        
-        return view('logout')->with('success', 'You have successfully logged out.');
-    }
-    //end of
+        Session::flush();
+        return view('logout')->with('success', 'You have been logged out.');
+        }
+    //end 
 }

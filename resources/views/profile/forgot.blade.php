@@ -13,7 +13,7 @@
         
       </div>
      <div class="row">
- 		<button class="btn waves-effect waves-light" type="submit" name="forgot" id="forgot">SignUp
+ 		<button class="btn waves-effect waves-light" type="submit" name="forgot" id="forgot">Send
     <i class="material-icons right">send</i>
   </button>
 

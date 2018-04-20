@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\CollegeFacility;
-use App\Feedback;
-use App\Department;
-use App\Discipline;
-use App\State;
-use App\UserDetail;
+use App\Model\CollegeFacility;
+use App\Model\Feedback;
+use App\Model\Department;
+use App\Model\Discipline;
+use App\Model\State;
+use App\Model\UserDetail;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 use Log;
@@ -16,11 +16,17 @@ class ProfileController extends Controller
 {
     
     protected function viewprofile(){
-    	return view('profile.display');
+        if(Auth::user()->role==1){
+            return view('profile.admin.display');
+        }
+        else{
+        $user=UserDetail::where('user_id',Auth::user()->id)->first();
+    	return view('profile.display')->with('user',$user);
+        }
     }
 protected function validateprofile(array $data)
     {
-    	Log::info('validateprofile');
+    	//Log::info('validateprofile');
         $message=[
         'required'=>'The :attribute must not be left blank',
         'numeric'=>'The :attribute must be valid numbers'
@@ -40,7 +46,7 @@ protected function validateprofile(array $data)
     protected function createuserprofile(array $data)
     {
       //$key=str_random(8);
-    	Log::info('createprofile');
+    	//Log::info('createprofile');
         return UserDetail::firstOrNew([
             
         	'id'=>$data['id'],
@@ -81,7 +87,7 @@ protected function validateprofile(array $data)
     protected function createclgfac(array $data)
     {
       //$key=str_random(8);
-        Log::info('createclgfacility');
+        //Log::info('createclgfacility');
         return CollegeFacility::firstOrNew([
             
             'id'=>$data['id'],
@@ -124,8 +130,8 @@ protected function validateprofile(array $data)
 
     protected function createfeedback(array $data){
         return Feedback::firstOrNew([
-                'id' => $data['id'],
-                'q1'=>$data['q1'],
+            'id' => $data['id'],
+            'q1'=>$data['q1'],
             'q2' => $data['q2'],
             'q3' => $data['q3'],
             'q4' => $data['q4'],
@@ -142,8 +148,6 @@ protected function validateprofile(array $data)
             'q15' => $data['q15'],
             'q16' => $data['q16'],
             'q17' => $data['q17'],
-
-
             ]);
     }
 
@@ -153,7 +157,7 @@ protected function validateprofile(array $data)
     	$valid=self::validateprofile($request->all());
     	if($valid->fails()){
     		Log::info('validation fails');
-			return back()->withErrors($valid);
+			return back()->withErrors($valid)->withInput();
     	}
     	$eyrc='No';
     	$eyic='No';
@@ -185,7 +189,7 @@ protected function validateprofile(array $data)
             'salary'=>$request->salary];
             $user->profile=1;
             $user_profile=self::createuserprofile($data);
-            Log::info('send data=>');
+            //Log::info('send data=>');
             if(!$user_profile->save()){
                 $user->profile=0;
             	Log::info('error in user profile save');
@@ -195,12 +199,10 @@ protected function validateprofile(array $data)
 				Log::info('error in user save');
 				return back('msg','something went wrong please try again');
 			}
-			Log::info('dont know what happened');
+			Log::info('User Detais Created for '.$user->id);
 			return view('home')->with('msg','Saved Profile!!');
         }
 	
-
-
     protected function clgfaq(Request $request){
         $user=Auth::user();
         $valid=$this->validateclgfaq($request->all());
@@ -235,8 +237,8 @@ protected function validateprofile(array $data)
                 Log::info('error in user save after success of clgfac save update clg_f in users table');
                 return back('msg','something went wrong please try again');
             }
-            Log::info('I know what i did there xD');
-            return view('home')->with('msg','Saved Collge Facilitate Feedback!!');
+            Log::info('College Facilitate Feedback Saved for User'.Auth::user()->id);
+            return back('msg','Saved Collge Facilitate Feedback!!');
 
     }
     protected function feedback(Request $request){
@@ -247,7 +249,7 @@ protected function validateprofile(array $data)
         }
         $data=[
         'id' => $user->id,
-                'q1'=>$request->q1,
+            'q1'=>$request->q1,
             'q2' => $request->q2,
             'q3' => $request->q3,
             'q4' => $request->q4,
@@ -276,6 +278,7 @@ protected function validateprofile(array $data)
             Log::info('In feedback user save please update manually feedback column in db');
             return back()->with('msg','');
         }
+        Log::info('Impact of eYantra Filled successfully by '.$user->id);
         return back()->with('msg','Thank you!. The feedback has been submited successfully');
     }
 }

@@ -1,15 +1,16 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+use Alert;
 use Input;
 use Request;
 use Hash;
 use Mail;
 use Log;
 use Auth;
-use App\Discipline;
-use App\Department;
-use App\State;
+use App\Model\Discipline;
+use App\Model\Department;
+use App\Model\State;
 use App\User;
 use App\Mail\AccountCreate;
 use App\Http\Controllers\Controller;
@@ -126,27 +127,37 @@ class RegisterController extends Controller
 
       protected function postactivate()
       {
-        Log::info('post activate');
+        //Log::info(' form post activate');
         $discipline=Discipline::all();
-        Log::info("discipline :".$discipline[0]);
+       // Log::info("discipline :".$discipline[0]);
         $department=Department::all();
-        Log::info("dept :".$department[0]);
+       // Log::info("dept :".$department[0]);
         $state=State::all();
         //$string = implode(';', Input::get('name'));
-        Log::info("request param::".Input::get('name'));
+        //Log::info("request param::".Input::get('name'));
         $data=['name'=>Input::get('name'),'password'=>Input::get('password'),'repass'=>Input::get('repass')];
         $valid=$this->validator($data);
+        $valid->after(function ($valid) {
+              if (!Hash::check(Input::get('oldpassword'),Auth::user()->password)) {
+                //Log::info("hash if");
+                  $valid->errors()->add('oldpassword', 'The Old Password did not match!');
+                  return back()->withErrors($valid);
+                    }
+        });
         if($valid->fails()){
             return view('profile.reset')->withErrors($valid);
         }
         else{
+          //Log::info("user profile password reset");
           $user=Auth::user();
           $user->name=$data['name'];
           $user->reset=1;
           $user->password=bcrypt($data['password']);
           if(!$user->save()){
-            return redirect()->route('logout');
+            //Alert::error('Something Went Wrong','Oops');
+            return back()->with($errors);
           }
+          //Alert::success("Account Set",'Success');
         return view('home')->with(['disciplines'=>$discipline,'departments'=>$department,'msg'=>'Password Set Succesfully','states'=>$state]);
         }
         //
@@ -175,24 +186,24 @@ class RegisterController extends Controller
 */
 protected function sendinitialmail()
 {
-  Log::info("initmail");
+  //Log::info("initmail");
   if(Auth::user()->role!=1){
-    Log::info("if:role not admin");
-    return view('home')->with('msg','Not authorised to do this');
+    //Log::info("if:role not admin");
+    return redirect()->route('home')->with('msg','Not authorised to do this');
   }
   $users=User::where('email_sent',0)->get();
   //dd($users);
  // Log::info("dump".$users[0]['email']);
-  Log::info("Users".count($users));
+  //Log::info("Users".count($users));
   if(count($users) == 0){
-      return view('home')->with('msg','Email Already sent to all members');
+      return redirect()->route('home')->with('msg','Email Already sent to all members');
     }
     $count=0;
   foreach ($users as $user) {
 # send mail to user 1 by 1...
     $password=str_random(8);
     //Log::info("pass".$password);
-    Log::info("for".$user->email);
+    //Log::info("for".$user->email);
     $user->password=Hash::make($password);
     //if($user->verify_token == Null || empty($user->verify_token)){
       $new_token = str_random(50);
@@ -200,7 +211,7 @@ protected function sendinitialmail()
     
     if(self::sendmail($user,$password)){
       $count++;
-      Log::info("Email sent to".$user->email);
+      //Log::info("Email sent to".$user->email);
       $user->email_sent=1;
       if(!$user->save()){
         Log::error('User not save to database'.$user->email);
@@ -209,25 +220,27 @@ protected function sendinitialmail()
     }
   }
   Log::info("Number of emails sent".$count);
-return view('home')->with('msg','The email has been sent');
+return redirect()->route('index')->with('msg','The email has been sent');
 }
 
 //send mail to the user
 protected function sendmail($user,$password){
   //dd($password);
-  Log::info("pass ".$password);
-  Log::info('for '.$user->email);
+ // Log::info("pass ".$password);
+  //Log::info('for '.$user->email);
   $flag=0;
   try{
     //dd($user);
     $data=['email'=>$user->email,'password'=>$password];
-  Mail::to($user)->send(new AccountCreate($data));
+  Mail::to($user)
+  ->cc(Auth::user()->email)
+  ->send(new AccountCreate($data));
   $flag=1;
-  Log::info("flag".$flag);
+  //Log::info("flag".$flag);
 }
 catch(Exception $e){
 Log::info('Mail not sent to'.$user->email);
-
+return 0;
 }
 return $flag;
 

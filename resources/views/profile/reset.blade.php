@@ -19,6 +19,17 @@
       </div>
       <div class="row">
         <div class="input-field col s6">
+          <input name="oldpassword" id="oldpassword" type="password" class="validate" >
+          <label for="oldpassword"> Old Password</label>
+        </div>
+        <div class="col s3">
+        @if($errors->has('oldpassword'))
+            <p class="red-text">{!! $errors->first('oldpassword') !!}</p>
+          @endif
+      </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
           <input name="password" id="password" type="password" class="validate" >
           <label for="password">Password</label>
         </div>

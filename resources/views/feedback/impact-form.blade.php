@@ -3,6 +3,7 @@
           	 
           </div>
           <form action="{{route('feedback')}}">
+          {!! csrf_field() !!}
 			<div class="section">
 			<p>We'd like to know how e-Yantra has touched you.</p>
 				<p><strong>Q1.</strong> Improved technical skills</p>

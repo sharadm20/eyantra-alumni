@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Auth;
+use App\Model\Department;
+use App\Model\Discipline;
+use App\Model\State;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -22,7 +25,19 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('home')->with('msg','');;
+    {   
+        if(Auth::user()->role==1){
+        return view('admin.index');
+        }
+        else{
+           if(Auth::check())
+            {
+         $dept=Department::all();
+         $disc=Discipline::all();
+         $st=State::all();
+            return view('home')->with(['msg'=>'','departments'=>$dept,'disciplines'=>$disc,'states'=>$st]);
+            }
+            return view('welcome')->with('fail','');
+        }
     }
 }

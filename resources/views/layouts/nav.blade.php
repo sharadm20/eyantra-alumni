@@ -8,7 +8,7 @@
 </ul>
 <nav class="grey darken-3">
   <div class="nav-wrapper">
-    <a href="#!" class="brand-logo"><a href=# class="brand-logo"><img class="responsive-img" style="margin-top: 10px;" src="{!! asset('img/logo.png') !!}"/></a></a>
+    <a href="{!!route('home')!!}" class="brand-logo"><a href="{!!route('home')!!}" class="brand-logo"><img class="responsive-img" style="margin-top: 10px;" src="{!! asset('img/logo.png') !!}"/></a></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="{!!route('home')!!}">Home</a></li>
       <!-- <li><a href="badges.html">Components</a></li> -->

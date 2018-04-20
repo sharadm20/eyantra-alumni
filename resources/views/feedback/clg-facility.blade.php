@@ -1,6 +1,7 @@
 <h4>College Facilitation</h4>
 
 <form method="POST" action="{{route('clgfaq')}}">
+{!! csrf_field() !!}
 <div class="section">
 				<p> My college facilitates participation in e-Yantra activities</p>
 									@if($errors->has('activity'))

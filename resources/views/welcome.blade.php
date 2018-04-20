@@ -7,7 +7,7 @@
 <div class="container">
    
 
-    <form class="col s6" method="POST" action="{!!URL::action('Auth\LoginController@signin')!!}">
+    <form class="col s6" method="POST" action="{{route('login1')}}">
    
       <div class="row">
       {!! csrf_field() !!}
